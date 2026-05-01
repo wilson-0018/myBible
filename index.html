@@ -57,6 +57,7 @@
     transition: all 0.2s;
     text-align: left;
     gap: 16px;
+    cursor: pointer;
   }
   .book-card:hover {
     border-color: #8b5e3c;
@@ -69,15 +70,21 @@
     min-width: 44px;
     text-align: center;
   }
-
-  .book-info {
-    flex: 1;
-  }
+  .book-info { flex: 1; }
   .book-title {
     font-size: 18px;
     font-weight: 700;
     color: #3a2a1a;
     margin-bottom: 2px;
+  }
+  .book-title .arrow {
+    font-size: 13px;
+    color: #b8926c;
+    margin-left: 6px;
+    transition: margin 0.2s;
+  }
+  .book-card:hover .arrow {
+    margin-left: 10px;
   }
   .book-desc {
     font-size: 13px;
@@ -100,6 +107,87 @@
     margin-top: 20px;
     padding-bottom: 30px;
   }
+
+  /* ===== 弹窗 ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,20,10,0.55);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+    cursor: pointer;
+  }
+  .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+  .modal-box {
+    background: #fcf9f5;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    padding: 32px 30px;
+    cursor: default;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px;
+    font-size: 24px; color: #bbb; cursor: pointer;
+    background: none; border: none; line-height: 1;
+  }
+  .modal-close:hover { color: #666; }
+  .modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #5b3a1a;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #d4b896;
+    padding-bottom: 12px;
+  }
+  .modal-section {
+    margin-bottom: 20px;
+  }
+  .modal-section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #8b5e3c;
+    margin-bottom: 8px;
+  }
+  .modal-section p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.8;
+  }
+  .verse-card {
+    background: #f5ede4;
+    border-left: 4px solid #8b5e3c;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 0 8px 8px 0;
+  }
+  .verse-text {
+    font-size: 14px;
+    color: #3a2a1a;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .verse-ref {
+    font-size: 12px;
+    color: #8b5e3c;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+  }
+  .modal-hint {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+  }
 </style>
 </head>
 <body>
@@ -115,10 +203,20 @@
 
   <div class="book-list">
 
+    <!-- 创世纪 — 点击弹窗 -->
+    <div class="book-card" onclick="openGenesis()">
+      <div class="book-icon">🌍</div>
+      <div class="book-info">
+        <div class="book-title">创世纪 <span class="arrow">→</span></div>
+        <div class="book-desc">概要 · 金句 · 神的话语</div>
+        <span class="book-tag tag-gold">点击打开</span>
+      </div>
+    </div>
+
     <a class="book-card" href="bible-books.html">
       <div class="book-icon">📚</div>
       <div class="book-info">
-        <div class="book-title">圣经各卷书</div>
+        <div class="book-title">圣经各卷书 <span class="arrow">→</span></div>
         <div class="book-desc">英汉对照 · 国际音标 · 点击听发音</div>
         <span class="book-tag tag-gold">66卷全收录</span>
       </div>
@@ -127,8 +225,8 @@
     <a class="book-card" href="bible-genealogy.html">
       <div class="book-icon">👑</div>
       <div class="book-info">
-        <div class="book-title">圣经人物关系 1</div>
-        <div class="book-desc">亚伯拉罕 → 大卫 · 族谱图解 · 实线血缘 · 虚线夫妻</div>
+        <div class="book-title">圣经人物关系 1 <span class="arrow">→</span></div>
+        <div class="book-desc">亚伯拉罕 → 大卫 · 族谱图解</div>
         <span class="book-tag tag-gold">14代谱系</span>
       </div>
     </a>
@@ -136,8 +234,8 @@
     <a class="book-card" href="bible-genealogy2.html">
       <div class="book-icon">✝️</div>
       <div class="book-info">
-        <div class="book-title">圣经人物关系 2</div>
-        <div class="book-desc">大卫王 → 耶稣基督 · 犹大列王 · 两约之间</div>
+        <div class="book-title">圣经人物关系 2 <span class="arrow">→</span></div>
+        <div class="book-desc">大卫王 → 耶稣基督 · 弥赛亚谱系</div>
         <span class="book-tag tag-green">弥赛亚谱系</span>
       </div>
     </a>
@@ -149,5 +247,95 @@
   </div>
 </div>
 
+<!-- ===== 弹窗 ===== -->
+<div class="modal-overlay" id="genesisModal" onclick="closeGenesis(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeGenesisDirect()">✕</button>
+    <div class="modal-title">🌍 创世纪 Genesis</div>
+
+    <div class="modal-section">
+      <h3>📖 概要</h3>
+      <p>创世纪是圣经的开篇之书，记载了世界的起源、人类的堕落与神的救赎计划。全书分为两大段落：上古史（1-11章）讲述神的创造（1-2章）、人类犯罪与堕落（3章）、该隐杀亚伯（4章）、挪亚洪水与方舟（6-9章）、巴别塔（11章）；先祖史（12-50章）聚焦亚伯拉罕蒙召、以撒、雅各与约瑟四代先祖的故事，揭示神透过一个家族赐福万邦的救恩蓝图。核心主题：创造、堕落、审判、恩典与应许。</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>🔥 金句 · 神的话语</h3>
+
+      <div class="verse-card">
+        <div class="verse-text">"起初，神创造天地。"</div>
+        <span class="verse-ref">—— 创世记 1:1</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"神说：'要有光'，就有了光。"</div>
+        <span class="verse-ref">—— 创世记 1:3</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"神就照着自己的形象造人，乃是照着他的形象造男造女。"</div>
+        <span class="verse-ref">—— 创世记 1:27</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"我要叫你和女人彼此为仇，你的后裔和女人的后裔也彼此为仇。女人的后裔要伤你的头，你要伤他的脚跟。"</div>
+        <span class="verse-ref">—— 创世记 3:15（原始福音）</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"挪亚在耶和华眼前蒙恩。"</div>
+        <span class="verse-ref">—— 创世记 6:8</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"耶和华对亚伯兰说：'你要离开本地、本族、父家，往我所要指示你的地去。我必叫你成为大国，我必赐福给你，叫你的名为大，你也要叫别人得福。为你祝福的，我必赐福与他；那咒诅你的，我必咒诅他。地上的万族都要因你得福。'"</div>
+        <span class="verse-ref">—— 创世记 12:1-3</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"亚伯兰信耶和华，耶和华就以此为他的义。"</div>
+        <span class="verse-ref">—— 创世记 15:6</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"亚伯拉罕给那地方起名叫耶和华以勒（就是耶和华必预备的意思）。"</div>
+        <span class="verse-ref">—— 创世记 22:14</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"地上万国都必因你的后裔得福，因为你听从了我的话。"</div>
+        <span class="verse-ref">—— 创世记 22:18</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"我与你同在，你无论往哪里去，我必保佑你，领你归回这地，总不离弃你，直到我成全了向你所应许的。"</div>
+        <span class="verse-ref">—— 创世记 28:15</span>
+      </div>
+
+      <div class="verse-card">
+        <div class="verse-text">"从前你们的意思是要害我，但神的意思原是好的，要保全许多人的性命，成就今日的光景。"</div>
+        <span class="verse-ref">—— 创世记 50:20</span>
+      </div>
+
+    </div>
+
+    <div class="modal-hint">点击任意区域可关闭</div>
+  </div>
+</div>
+
+<script>
+function openGenesis() {
+  document.getElementById('genesisModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeGenesis(e) {
+  if (e.target === document.getElementById('genesisModal')) {
+    closeGenesisDirect();
+  }
+}
+function closeGenesisDirect() {
+  document.getElementById('genesisModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+</script>
 </body>
 </html>
