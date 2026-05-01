@@ -15,6 +15,19 @@
     overflow-x: auto;
   }
   .container { max-width: 1040px; margin: 0 auto; text-align: center; }
+
+  .nav-bar {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .nav-btn {
+    padding: 6px 16px; border-radius: 20px; border: 1px solid #d4b896;
+    background: #fff; font-size: 13px; cursor: pointer;
+    color: #8b5e3c; text-decoration: none; transition: all 0.2s;
+  }
+  .nav-btn:hover { background: #f0e8dc; }
+  .nav-btn.active { background: #8b5e3c; color: #fff; border-color: #8b5e3c; }
+
   h1 { font-size: 26px; color: #5b3a1a; letter-spacing: 2px; margin-bottom: 2px; }
   .subtitle { color: #aaa; font-size: 13px; margin-bottom: 16px; }
 
@@ -110,6 +123,13 @@
 <body>
 
 <div class="container">
+  <div class="nav-bar">
+    <a class="nav-btn active" href="bible-genealogy.html">图谱1：亚伯拉罕→大卫</a>
+    <a class="nav-btn" href="bible-genealogy2.html">图谱2：大卫→耶稣</a>
+    <a class="nav-btn" href="bible-genealogy3.html">图谱3：耶稣与门徒</a>
+    <a class="nav-btn" href="index.html">🏠 主页</a>
+  </div>
+
   <h1>👑 圣经人物关系 1</h1>
   <p class="subtitle">亚伯拉罕 → 大卫 · 实线=血缘 · 虚线=夫妻</p>
 
