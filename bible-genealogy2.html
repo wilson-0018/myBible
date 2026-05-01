@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+<title>圣经人物关系2：大卫 → 耶稣基督</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+    background: #f5f0e8;
+    color: #2c2c2c;
+    min-height: 100vh;
+    padding: 16px;
+    overflow-x: auto;
+  }
+  .container { max-width: 1040px; margin: 0 auto; text-align: center; }
+  h1 { font-size: 26px; color: #5b3a1a; letter-spacing: 2px; margin-bottom: 2px; }
+  .subtitle { color: #aaa; font-size: 13px; margin-bottom: 16px; }
+  .back-link {
+    display: inline-block; margin-bottom: 14px; font-size: 13px;
+    color: #8b5e3c; text-decoration: none; border: 1px solid #d4b896;
+    padding: 4px 14px; border-radius: 6px; transition: background 0.2s;
+  }
+  .back-link:hover { background: #f0e8dc; }
+
+  .legend {
+    display: flex; gap: 20px; justify-content: center;
+    margin: 8px 0 18px; font-size: 13px; color: #666; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-line-s { width: 28px; height: 0; border-top: 3px solid #7a5a3a; }
+  .legend-line-d { width: 28px; height: 0; border-top: 2px dashed #c08080; }
+  .lb { width: 14px; height: 14px; border-radius: 3px; border: 2px solid; display: inline-block; }
+  .lb.k { border-color: #7a5a3a; background: #f5ede4; }
+  .lb.w { border-color: #c08080; border-style: dashed; background: #fdf6f6; }
+  .lb.j { border-color: #b8942e; background: #faf5e6; }
+
+  .tree-wrap { overflow-x: auto; padding: 6px 0; -webkit-overflow-scrolling: touch; }
+  .tree { display: flex; flex-direction: column; align-items: center; min-width: 360px; }
+
+  .card {
+    display: inline-flex; flex-direction: column; align-items: center;
+    padding: 7px 14px; border-radius: 10px; background: #fff;
+    border: 2px solid #d4b896; min-width: 80px; cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+  .card .nm { font-size: 15px; font-weight: 700; color: #3a2a1a; line-height: 1.3; }
+  .card .en { font-size: 11px; color: #aaa; }
+  .card .nt { font-size: 10px; color: #b8926c; margin-top: 1px; line-height: 1.3; }
+
+  .card.key { border-color: #7a5a3a; background: #f5ede4; border-width: 3px; }
+  .card.key .nm { color: #4a3020; }
+  .card.wife { border-color: #c08080; border-style: dashed; background: #fdf6f6; }
+  .card.wife .nm { color: #905050; }
+  .card.jesus { border-color: #b8942e; background: #faf5e6; border-width: 3px; }
+  .card.jesus .nm { color: #7a6010; font-size: 17px; }
+
+  .v-solid { width: 3px; height: 18px; background: #7a5a3a; margin: 0 auto; }
+  .v-dash { width: 0; height: 14px; border-left: 2px dashed #c08080; margin: 0 auto; }
+  .v-era {
+    width: 2px; height: 26px; background: #d4b896; margin: 4px auto;
+    position: relative;
+  }
+  .v-era::after {
+    content: attr(data-label);
+    position: absolute; left: 50%; transform: translateX(-50%);
+    white-space: nowrap; font-size: 11px; color: #b8926c; top: 28px;
+  }
+
+  .row {
+    display: flex; justify-content: center; align-items: center;
+    gap: 20px; margin: 0 auto; flex-wrap: wrap;
+  }
+
+  .bridge {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; gap: 20px;
+  }
+  .bridge .down { width: 3px; height: 18px; background: #7a5a3a; }
+
+  .spouse-bridge {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; gap: 20px;
+  }
+  .spouse-bridge .dd { width: 0; height: 12px; border-left: 2px dashed #c08080; }
+
+  .era-box {
+    padding: 6px 20px; background: #f0e8dc; border-radius: 8px;
+    color: #8b5e3c; font-size: 12px; margin: 6px auto;
+  }
+
+  .sec-title {
+    font-size: 17px; font-weight: 700; color: #8b5e3c;
+    margin: 24px 0 12px; text-align: left;
+    border-bottom: 2px solid #d4b896; padding-bottom: 6px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px; }
+  th { background: #8b5e3c; color: #fff; padding: 7px 10px; text-align: left; font-size: 12px; }
+  td { padding: 6px 10px; border-bottom: 1px solid #eee; }
+  tr:nth-child(even) { background: #faf5ee; }
+
+  @media (max-width: 480px) {
+    body { padding: 10px; }
+    h1 { font-size: 20px; }
+    .row { gap: 10px; }
+    .bridge { gap: 10px; }
+    .card { padding: 5px 10px; min-width: 60px; }
+    .card .nm { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a class="back-link" href="bible-genealogy.html">← 关系1：亚伯拉罕 → 大卫</a>
+  <h1>👑 圣经人物关系 2</h1>
+  <p class="subtitle">大卫王 → 耶稣基督 · 实线=血缘 · 虚线=夫妻</p>
+
+  <div class="legend">
+    <div class="legend-item"><span class="lb k"></span> 关键人物</div>
+    <div class="legend-item"><span class="legend-line-s"></span> 父子血缘</div>
+    <div class="legend-item"><span class="legend-line-d"></span> 夫妻关系</div>
+    <div class="legend-item"><span class="lb j"></span> 耶稣</div>
+  </div>
+
+  <div class="tree-wrap">
+    <div class="tree">
+
+      <!-- ========== 大卫 ========== -->
+      <div class="card key" style="border-width:3px;">
+        <div class="nm">👑 大卫</div>
+        <div class="en">David</div>
+        <div class="nt">←耶西 · 统一王国 · 1040-970 BC</div>
+      </div>
+
+      <!-- 大卫的妻子们 -->
+      <div class="spouse-bridge"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div></div>
+      <div class="row">
+        <div class="card wife"><div class="nm">米甲</div><div class="en">Michal</div></div>
+        <div class="card wife"><div class="nm">亚希暖</div><div class="en">Ahinoam</div><div class="nt">生暗嫩</div></div>
+        <div class="card wife" style="border-color:#b8942e;"><div class="nm">✦拔示巴</div><div class="en">Bathsheba</div><div class="nt">生所罗门</div></div>
+        <div class="card wife"><div class="nm">亚比该等</div><div class="en">Abigail etc.</div><div class="nt">其他妻妾</div></div>
+      </div>
+
+      <!-- 大卫的儿子们 -->
+      <div class="bridge">
+        <div class="down"></div><div class="down"></div><div class="down"></div><div class="down"></div>
+      </div>
+      <div class="row">
+        <div class="card"><div class="nm">暗嫩</div><div class="nt">长子·亚希暖</div></div>
+        <div class="card"><div class="nm">押沙龙</div><div class="nt">三子·叛乱</div></div>
+        <div class="card"><div class="nm">亚多尼雅</div><div class="nt">四子</div></div>
+        <div class="card key" style="border-color:#b8942e;"><div class="nm">👑 所罗门</div><div class="en">Solomon</div><div class="nt">←大卫&拔示巴·第三任王</div></div>
+      </div>
+
+      <!-- ========== 犹大王国列王 ========== -->
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">罗波安</div><div class="en">Rehoboam</div><div class="nt">←所罗门·犹大王</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚比雅</div><div class="en">Abijah</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚撒</div><div class="en">Asa</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">约沙法</div><div class="en">Jehoshaphat</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">约兰</div><div class="en">Joram</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">乌西雅</div><div class="en">Uzziah</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">约坦</div><div class="en">Jotham</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚哈斯</div><div class="en">Ahaz</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">希西家</div><div class="en">Hezekiah</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">玛拿西</div><div class="en">Manasseh</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚们</div><div class="en">Amon</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">约西亚</div><div class="en">Josiah</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">耶哥尼雅</div><div class="en">Jeconiah</div><div class="nt">被掳巴比伦</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">撒拉铁</div><div class="en">Shealtiel</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">所罗巴伯</div><div class="en">Zerubbabel</div><div class="nt">带领归回重建圣殿</div></div></div>
+
+      <div class="v-era" data-label="▼ 两约之间（波斯→希腊→罗马时期） ▼"></div>
+
+      <div class="row"><div class="card"><div class="nm">亚比玉</div><div class="en">Abiud</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">以利亚敬</div><div class="en">Eliakim</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚所</div><div class="en">Azor</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">撒督</div><div class="en">Zadok</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">亚金</div><div class="en">Achim</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">以律</div><div class="en">Eliud</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">以利亚撒</div><div class="en">Eleazar</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">马但</div><div class="en">Matthan</div></div></div>
+      <div class="v-solid"></div>
+      <div class="row"><div class="card"><div class="nm">雅各</div><div class="en">Jacob</div></div></div>
+      <div class="v-solid"></div>
+
+      <!-- ========== 约瑟 + 马利亚 ========== -->
+      <div class="row">
+        <div class="card" style="border-color:#b8942e;">
+          <div class="nm">约瑟</div>
+          <div class="en">Joseph</div>
+          <div class="nt">←雅各 · 大卫后裔（养父）</div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:2px;">
+        <div class="card" style="border-color:#b8942e;border-width:1px;">
+          <div class="nm">约瑟</div>
+        </div>
+        <div style="color:#c08080;font-size:14px;">❤️</div>
+        <div class="card wife" style="border-color:#b8942e;">
+          <div class="nm">马利亚</div>
+          <div class="en">Mary</div>
+          <div class="nt">圣灵感孕</div>
+        </div>
+      </div>
+      <div class="v-solid" style="background:#b8942e;width:3px;height:22px;"></div>
+
+      <!-- ========== 耶稣 ========== -->
+      <div style="margin-top:6px;">
+        <div class="card jesus" style="padding:12px 28px;">
+          <div class="nm">✝️ 耶稣基督</div>
+          <div class="en">Jesus Christ</div>
+          <div class="nt">←马利亚（圣灵感孕）· 大卫后裔（法理上通过约瑟）· ~4 BC</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 世代表格 -->
+  <div class="sec-title">📋 世代对照表</div>
+  <table>
+    <thead><tr><th>#</th><th>人物</th><th>父母</th><th>时期</th><th>关键事件</th></tr></thead>
+    <tbody>
+      <tr style="background:#f5ede4;"><td>1</td><td><b>👑 大卫王</b></td><td>耶西</td><td>1040-970 BC</td><td>统一王国</td></tr>
+      <tr><td>2</td><td><b>👑 所罗门王</b></td><td>大卫 & 拔示巴</td><td>990-931 BC</td><td>建造圣殿</td></tr>
+      <tr><td>3</td><td>罗波安</td><td>所罗门</td><td>931-913 BC</td><td>王国分裂</td></tr>
+      <tr><td>4</td><td>亚比雅</td><td>罗波安</td><td>913-911 BC</td><td></td></tr>
+      <tr><td>5</td><td>亚撒</td><td>亚比雅</td><td>911-870 BC</td><td>宗教改革</td></tr>
+      <tr><td>6</td><td>约沙法</td><td>亚撒</td><td>870-848 BC</td><td></td></tr>
+      <tr><td>7</td><td>约兰</td><td>约沙法</td><td>848-841 BC</td><td></td></tr>
+      <tr><td>8</td><td>乌西雅</td><td>约兰→亚哈谢→约阿施→亚玛谢→乌西雅</td><td>792-740 BC</td><td>跳过三代恶王</td></tr>
+      <tr><td>9</td><td>约坦</td><td>乌西雅</td><td>740-732 BC</td><td></td></tr>
+      <tr><td>10</td><td>亚哈斯</td><td>约坦</td><td>732-716 BC</td><td></td></tr>
+      <tr><td>11</td><td>希西家</td><td>亚哈斯</td><td>716-687 BC</td><td>宗教复兴</td></tr>
+      <tr><td>12</td><td>玛拿西</td><td>希西家</td><td>687-642 BC</td><td></td></tr>
+      <tr><td>13</td><td>亚们</td><td>玛拿西</td><td>642-640 BC</td><td></td></tr>
+      <tr><td>14</td><td>约西亚</td><td>亚们</td><td>640-609 BC</td><td>发现律法书</td></tr>
+      <tr><td>15</td><td>耶哥尼雅</td><td>约西亚→约雅敬→耶哥尼雅</td><td>598-597 BC</td><td>被掳巴比伦</td></tr>
+      <tr><td>16</td><td>撒拉铁</td><td>耶哥尼雅</td><td>~597 BC</td><td>被掳中</td></tr>
+      <tr><td>17</td><td>所罗巴伯</td><td>撒拉铁</td><td>~538 BC</td><td>归回重建</td></tr>
+      <tr><td>18-27</td><td>亚比玉 → 雅各</td><td>父子相承</td><td>~400-4 BC</td><td>两约之间</td></tr>
+      <tr><td>28</td><td>约瑟（养父）</td><td>雅各</td><td>~1 BC</td><td>马利亚丈夫</td></tr>
+      <tr style="background:#faf5e6;"><td><b>✝️</b></td><td><b>耶稣基督</b></td><td><b>马利亚（圣灵感孕）</b></td><td><b>~4 BC</b></td><td><b>弥赛亚降临 · 道成肉身</b></td></tr>
+    </tbody>
+  </table>
+
+  <div style="text-align:center; color:#aaa; font-size:12px; padding:10px 0 20px;">
+    谱系依据马太福音1:6-17 · 日期为近似值
+  </div>
+</div>
+</body>
+</html>
