@@ -268,7 +268,7 @@
 
 <div class="container">
   <h1>📖 圣经各卷书</h1>
-  <p class="subtitle">Books of the Bible · 英汉对照 · 点击 🔊 听发音 · 点击📜创世记看概要金句</p>
+  <p class="subtitle">Books of the Bible · 英汉对照 · 点击 🔊 听发音 · 点击📜查看概要金句</p>
 
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="🔍 搜索中文或英文名称..." oninput="filterBooks()">
@@ -316,13 +316,63 @@
   </div>
 </div>
 
+<!-- ===== 出埃及记弹窗 ===== -->
+<div class="modal-overlay" id="exodusModal" onclick="if(event.target===this)closeExodus()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeExodus()">✕</button>
+    <div class="modal-title">📜 出埃及记 Exodus</div>
+
+    <div class="modal-section">
+      <h3>📖 概要</h3>
+      <p>出埃及记记载了以色列人在埃及为奴、神藉摩西拯救他们脱离捆绑并建立圣约的历程。前半部分（1-18章）讲述摩西蒙召、十灾、逾越节与过红海，神用大能拯救以色列人出埃及。后半部分（19-40章）聚焦西奈山立约，神赐下十诫与律法，并指示建造会幕，使神可以住在百姓中间。核心主题：救赎、约、神的同在与圣洁。</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>🔥 金句 · 神的话语</h3>
+
+      <div class="verse-card"><div class="verse-text">"神对摩西说：'我是自有永有的。'"</div><span class="verse-ref">—— 出埃及记 3:14</span></div>
+      <div class="verse-card"><div class="verse-text">"我一见这血，就越过你们去。我击杀埃及地头生的时候，灾殃必不临到你们身上灭你们。"</div><span class="verse-ref">—— 出埃及记 12:13</span></div>
+      <div class="verse-card"><div class="verse-text">"耶和华必为你们争战，你们只管静默，不要作声。"</div><span class="verse-ref">—— 出埃及记 14:14</span></div>
+      <div class="verse-card"><div class="verse-text">"如今你们若实在听从我的话，遵守我的约，就要在万民中作属我的子民，因为全地都是我的。你们要归我作祭司的国度，为圣洁的国民。"</div><span class="verse-ref">—— 出埃及记 19:5-6</span></div>
+      <div class="verse-card"><div class="verse-text">"当孝敬父母，使你的日子在耶和华你神所赐你的地上得以长久。不可杀人。不可奸淫。不可偷盗。不可作假见证陷害人。不可贪恋人的房屋……"</div><span class="verse-ref">—— 出埃及记 20:12-17（十诫）</span></div>
+      <div class="verse-card"><div class="verse-text">"耶和华，耶和华，是有怜悯有恩典的神，不轻易发怒，并有丰盛的慈爱和诚实。"</div><span class="verse-ref">—— 出埃及记 34:6</span></div>
+
+    </div>
+    <div class="modal-hint">点击任意区域可关闭</div>
+  </div>
+</div>
+
+<!-- ===== 利未记弹窗 ===== -->
+<div class="modal-overlay" id="leviticusModal" onclick="if(event.target===this)closeLeviticus()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeLeviticus()">✕</button>
+    <div class="modal-title">🔥 利未记 Leviticus</div>
+
+    <div class="modal-section">
+      <h3>📖 概要</h3>
+      <p>利未记是神与以色列立约后的"生活手册"，教导一个圣洁的神如何与有罪的百姓同住。全书围绕"圣洁"展开：前七章详述五种献祭制度（燔祭、素祭、平安祭、赎罪祭、赎愆祭）；8-10章记载祭司职分的设立；11-15章讲述洁净与不洁净的条例；16章是赎罪日；17-27章涉及圣洁生活指引，包括"要爱人如己"的伦理命令和节期制度。核心主题：神的圣洁、献祭与赎罪、圣洁子民的呼召。</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>🔥 金句 · 神的话语</h3>
+
+      <div class="verse-card"><div class="verse-text">"你们要圣洁，因为我耶和华你们的神是圣洁的。"</div><span class="verse-ref">—— 利未记 19:2</span></div>
+      <div class="verse-card"><div class="verse-text">"要爱人如己。我是耶和华。"</div><span class="verse-ref">—— 利未记 19:18</span></div>
+      <div class="verse-card"><div class="verse-text">"你们要归我为圣，因为我耶和华是圣的，并叫你们与万民有分别，使你们作我的民。"</div><span class="verse-ref">—— 利未记 20:26</span></div>
+      <div class="verse-card"><div class="verse-text">"我要在你们中间行走，我要作你们的神，你们要作我的子民。"</div><span class="verse-ref">—— 利未记 26:12</span></div>
+
+    </div>
+    <div class="modal-hint">点击任意区域可关闭</div>
+  </div>
+</div>
+
 <script>
 // ====== 全部数据 ======
 const books = {
   ot: [
     { en: "Genesis", phonetic: "/ˈdʒenəsɪs/", cn: "创世记", genesis: true },
-    { en: "Exodus", phonetic: "/ˈeksədəs/", cn: "出埃及记" },
-    { en: "Leviticus", phonetic: "/lɪˈvɪtɪkəs/", cn: "利未记" },
+    { en: "Exodus", phonetic: "/ˈeksədəs/", cn: "出埃及记", exodus: true },
+    { en: "Leviticus", phonetic: "/lɪˈvɪtɪkəs/", cn: "利未记", leviticus: true },
     { en: "Numbers", phonetic: "/ˈnʌmbərz/", cn: "民数记" },
     { en: "Deuteronomy", phonetic: "/ˌdjuːtəˈrɒnəmi/", cn: "申命记" },
     { en: "Joshua", phonetic: "/ˈdʒɒʃuə/", cn: "约书亚记" },
@@ -402,6 +452,22 @@ function closeGenesis() {
   document.getElementById('genesisModal').classList.remove('active');
   document.body.style.overflow = '';
 }
+function openExodus() {
+  document.getElementById('exodusModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeExodus() {
+  document.getElementById('exodusModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function openLeviticus() {
+  document.getElementById('leviticusModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLeviticus() {
+  document.getElementById('leviticusModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
 
 // ====== 渲染 ======
 function render(filter) {
@@ -428,10 +494,15 @@ function render(filter) {
     const grid = document.createElement('div');
     grid.className = 'book-grid';
 
+    // 判断是否有弹窗
+    const hasPopup = (b) => b.genesis || b.exodus || b.leviticus;
+    const popupId = (b) => b.genesis ? 'genesis' : b.exodus ? 'exodus' : b.leviticus ? 'leviticus' : null;
+    const popupLabel = (b) => b.genesis ? '📜详情' : b.exodus ? '📜详情' : b.leviticus ? '📜详情' : '';
+
     filtered.forEach((book, idx) => {
       const card = document.createElement('div');
-      const isGenesis = book.genesis === true;
-      card.className = isGenesis ? 'book-card genesis-link' : 'book-card';
+      const isPopup = hasPopup(book);
+      card.className = isPopup ? 'book-card genesis-link' : 'book-card';
       card.dataset.search = `${book.en} ${book.cn}`.toLowerCase();
 
       const num = document.createElement('div');
@@ -445,10 +516,10 @@ function render(filter) {
       const enName = document.createElement('div');
       enName.className = 'book-en';
       enName.textContent = book.en;
-      if (isGenesis) {
+      if (isPopup) {
         const badge = document.createElement('span');
         badge.className = 'genesis-badge';
-        badge.textContent = '📜详情';
+        badge.textContent = popupLabel(book);
         enName.appendChild(badge);
       }
 
@@ -467,7 +538,7 @@ function render(filter) {
       const btn = document.createElement('button');
       btn.className = 'play-btn';
       btn.innerHTML = '🔊';
-      btn.title = isGenesis ? '听发音 / 点击查看详情' : '点击发音';
+      btn.title = isPopup ? '听发音 / 点击查看详情' : '点击发音';
       btn.onclick = (e) => {
         e.stopPropagation();
         speak(book.en);
@@ -477,13 +548,15 @@ function render(filter) {
       card.appendChild(info);
       card.appendChild(btn);
 
-      // 创世记整张卡片可点击弹窗
-      if (isGenesis) {
+      // 有弹窗的书卷可以点击打开
+      if (isPopup) {
+        const pid = popupId(book);
         card.onclick = (e) => {
           const tag = e.target;
-          // 如果点的是播放按钮，不触发弹窗
           if (tag.classList.contains('play-btn') || tag.closest('.play-btn')) return;
-          openGenesis();
+          if (pid === 'genesis') openGenesis();
+          else if (pid === 'exodus') openExodus();
+          else if (pid === 'leviticus') openLeviticus();
         };
         card.style.cursor = 'pointer';
       }
@@ -499,7 +572,7 @@ function render(filter) {
   renderTestament('ot', '旧约 Old Testament', '📜');
   renderTestament('nt', '新约 New Testament', '✝️');
 
-  countBar.textContent = `共 ${totalCount} 卷书 · 点击创世记查看概要金句`;
+  countBar.textContent = `共 ${totalCount} 卷书 · 点击带📜标签的书卷查看概要金句`;
 }
 
 // ====== 发音 ======
