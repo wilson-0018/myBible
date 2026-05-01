@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圣经族谱：亚伯拉罕 → 所罗门</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+    background: #f5f0e8;
+    color: #2c2c2c;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: auto;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  h1 {
+    font-size: 26px;
+    color: #5b3a1a;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .timeline-wrap {
+    overflow-x: auto;
+    padding: 20px 0;
+  }
+  .tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 800px;
+    position: relative;
+  }
+  .generation-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin: 12px 0;
+    position: relative;
+    flex-wrap: wrap;
+  }
+  .gen-label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #aaa;
+    writing-mode: vertical-lr;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  .person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: #fff;
+    border: 2px solid #d4b896;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+    min-width: 90px;
+    transition: all 0.2s;
+  }
+  .person:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  .person .name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3a2a1a;
+  }
+  .person .name-en {
+    font-size: 12px;
+    color: #999;
+    font-weight: 400;
+  }
+  .person .note {
+    font-size: 11px;
+    color: #b8926c;
+    margin-top: 2px;
+  }
+  .person.key {
+    border-color: #8b5e3c;
+    background: #faf5ee;
+    border-width: 3px;
+  }
+  .person.key .name { color: #5b3a1a; }
+  .person.wife {
+    border-color: #d4a0a0;
+    border-style: dashed;
+    background: #fefafa;
+  }
+  .person.wife .name { color: #a06060; }
+
+  /* 连线 */
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    position: relative;
+  }
+  .connector::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: #d4b896;
+  }
+  .connector.double::before {
+    height: 100%;
+  }
+  .branch-line {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+  }
+  .branch-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: #d4b896;
+  }
+
+  /* 关系标签 */
+  .relation {
+    font-size: 11px;
+    color: #bbb;
+    margin: 4px 0;
+    letter-spacing: 1px;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #8b5e3c;
+    margin: 32px 0 16px 0;
+    text-align: left;
+    border-bottom: 2px solid #d4b896;
+    padding-bottom: 8px;
+  }
+  .legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 13px;
+    color: #666;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 2px solid;
+  }
+  .legend-box.key { border-color: #8b5e3c; background: #faf5ee; }
+  .legend-box.wife { border-color: #d4a0a0; border-style: dashed; background: #fefafa; }
+  .legend-box.normal { border-color: #d4b896; background: #fff; }
+
+  @media (max-width: 640px) {
+    body { padding: 10px; }
+    h1 { font-size: 20px; }
+    .person { padding: 8px 12px; min-width: 70px; }
+    .person .name { font-size: 14px; }
+    .generation-row { gap: 20px; }
+    .branch-line { gap: 20px; }
+    .tree { min-width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>👑 圣经族谱</h1>
+  <p class="subtitle">从亚伯拉罕到所罗门 · 世代人物关系图谱</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box key"></div> 关键人物</div>
+    <div class="legend-item"><div class="legend-box wife"></div> 配偶/侧室</div>
+    <div class="legend-item"><div class="legend-box normal"></div> 其他人物</div>
+  </div>
+
+  <div class="timeline-wrap">
+    <div class="tree">
+
+      <!-- ====== 第一代：亚伯拉罕 ====== -->
+      <div class="generation-row" style="margin-top:0;">
+        <div class="person key">
+          <div class="name">亚伯拉罕</div>
+          <div class="name-en">Abraham</div>
+          <div class="note">信心之父 · 约2166 BC</div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="branch-line">
+        <div class="person wife">
+          <div class="name">撒拉</div>
+          <div class="name-en">Sarah</div>
+          <div class="note">正妻</div>
+        </div>
+        <div class="person wife">
+          <div class="name">夏甲</div>
+          <div class="name-en">Hagar</div>
+          <div class="note">使女 · 侧室</div>
+        </div>
+        <div class="person wife">
+          <div class="name">基土拉</div>
+          <div class="name-en">Keturah</div>
+          <div class="note">续弦</div>
+        </div>
+      </div>
+      <div class="connector double"></div>
+
+      <!-- ====== 第二代：以撒、以实玛利等 ====== -->
+      <div class="generation-row">
+        <div class="person key">
+          <div class="name">以撒</div>
+          <div class="name-en">Isaac</div>
+          <div class="note">应许之子 · 撒拉所生</div>
+        </div>
+        <div class="person">
+          <div class="name">以实玛利</div>
+          <div class="name-en">Ishmael</div>
+          <div class="note">夏甲所生 · 阿拉伯先祖</div>
+        </div>
+        <div class="person">
+          <div class="name">心兰等6子</div>
+          <div class="name-en">Zimran etc.</div>
+          <div class="note">基土拉所生</div>
+        </div>
+      </div>
+      <div class="connector double"></div>
+
+      <!-- ====== 以撒的配偶 ====== -->
+      <div class="generation-row">
+        <div class="person wife">
+          <div class="name">利百加</div>
+          <div class="name-en">Rebekah</div>
+          <div class="note">以撒之妻</div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <!-- ====== 第三代：以扫、雅各 ====== -->
+      <div class="generation-row">
+        <div class="person">
+          <div class="name">以扫</div>
+          <div class="name-en">Esau</div>
+          <div class="note">长子 · 以东先祖</div>
+        </div>
+        <div class="person key">
+          <div class="name">雅各（以色列）</div>
+          <div class="name-en">Jacob / Israel</div>
+          <div class="note">应许继承者</div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <!-- ====== 雅各的配偶们 ====== -->
+      <div class="branch-line">
+        <div class="person wife">
+          <div class="name">利亚</div>
+          <div class="name-en">Leah</div>
+          <div class="note">正妻 · 6子1女</div>
+        </div>
+        <div class="person wife">
+          <div class="name">拉结</div>
+          <div class="name-en">Rachel</div>
+          <div class="note">爱妻 · 约瑟/便雅悯</div>
+        </div>
+        <div class="person wife">
+          <div class="name">辟拉</div>
+          <div class="name-en">Bilhah</div>
+          <div class="note">拉结使女 · 2子</div>
+        </div>
+        <div class="person wife">
+          <div class="name">悉帕</div>
+          <div class="name-en">Zilpah</div>
+          <div class="note">利亚使女 · 2子</div>
+        </div>
+      </div>
+      <div class="connector double"></div>
+
+      <!-- ====== 第四代：12支派 + 底拿 ====== -->
+      <div class="generation-row">
+        <div class="person"><div class="name">流便</div><div class="name-en">Reuben</div><div class="note">利亚·长子</div></div>
+        <div class="person"><div class="name">西缅</div><div class="name-en">Simeon</div><div class="note">利亚</div></div>
+        <div class="person"><div class="name">利未</div><div class="name-en">Levi</div><div class="note">利亚·祭司支派</div></div>
+        <div class="person"><div class="name">犹大</div><div class="name-en">Judah</div><div class="note">利亚·君王支派</div></div>
+      </div>
+      <div class="generation-row">
+        <div class="person"><div class="name">但</div><div class="name-en">Dan</div><div class="note">辟拉</div></div>
+        <div class="person"><div class="name">拿弗他利</div><div class="name-en">Naphtali</div><div class="note">辟拉</div></div>
+        <div class="person"><div class="name">迦得</div><div class="name-en">Gad</div><div class="note">悉帕</div></div>
+        <div class="person"><div class="name">亚设</div><div class="name-en">Asher</div><div class="note">悉帕</div></div>
+      </div>
+      <div class="generation-row">
+        <div class="person"><div class="name">以萨迦</div><div class="name-en">Issachar</div><div class="note">利亚</div></div>
+        <div class="person"><div class="name">西布伦</div><div class="name-en">Zebulun</div><div class="note">利亚</div></div>
+        <div class="person key"><div class="name">约瑟</div><div class="name-en">Joseph</div><div class="note">拉结·埃及宰相</div></div>
+        <div class="person"><div class="name">便雅悯</div><div class="name-en">Benjamin</div><div class="note">拉结</div></div>
+        <div class="person" style="border-color:#d4a0a0;"><div class="name">底拿</div><div class="name-en">Dinah</div><div class="note">利亚·女儿</div></div>
+      </div>
+
+      <!-- ====== 间隔：400年埃及 ====== -->
+      <div style="margin:30px 0; padding:14px 30px; background:#f0e8dc; border-radius:10px; color:#8b5e3c; font-size:14px; max-width:500px;">
+        ⏳ 以色列人在埃及为奴约400年 · 出埃及约1446 BC
+      </div>
+
+      <!-- ====== 摩西、亚伦（利未支派） ====== -->
+      <div class="generation-row">
+        <div class="person key">
+          <div class="name">摩西</div>
+          <div class="name-en">Moses</div>
+          <div class="note">利未后裔 · 领出埃及</div>
+        </div>
+        <div class="person">
+          <div class="name">亚伦</div>
+          <div class="name-en">Aaron</div>
+          <div class="note">利未后裔 · 首任大祭司</div>
+        </div>
+      </div>
+
+      <!-- ====== 约书亚 ====== -->
+      <div style="margin:12px 0; padding:8px 20px; background:#f0e8dc; border-radius:8px; color:#8b5e3c; font-size:13px;">
+        ⚔️ 约书亚带领进入迦南 · 士师时代约350年
+      </div>
+
+      <!-- ====== 波阿斯 → 俄备得 → 耶西 ====== -->
+      <div class="generation-row">
+        <div class="person">
+          <div class="name">波阿斯</div>
+          <div class="name-en">Boaz</div>
+          <div class="note">犹大支派</div>
+        </div>
+      </div>
+      <div class="relation">▲ 娶路得 ▼</div>
+      <!-- <div class="connector"></div> -->
+      <div class="generation-row">
+        <div class="person">
+          <div class="name">俄备得</div>
+          <div class="name-en">Obed</div>
+        </div>
+      </div>
+      <!-- <div class="connector"></div> -->
+      <div class="generation-row">
+        <div class="person">
+          <div class="name">耶西</div>
+          <div class="name-en">Jesse</div>
+        </div>
+      </div>
+
+      <!-- ====== 大卫 ====== -->
+      <div class="connector"></div>
+      <div class="generation-row">
+        <div class="person key">
+          <div class="name">大卫</div>
+          <div class="name-en">David</div>
+          <div class="note">以色列第二任国王</div>
+        </div>
+      </div>
+
+      <!-- 大卫的妻子们 -->
+      <div class="branch-line" style="margin-bottom:10px;">
+        <div class="person wife"><div class="name">米甲</div><div class="name-en">Michal</div></div>
+        <div class="person wife"><div class="name">亚希暖</div><div class="name-en">Ahinoam</div><div class="note">生暗嫩</div></div>
+        <div class="person wife"><div class="name">拔示巴</div><div class="name-en">Bathsheba</div><div class="note">生所罗门</div></div>
+        <div class="person wife"><div class="name">亚比该</div><div class="name-en">Abigail</div><div class="note">生但以利</div></div>
+        <div class="person wife"><div class="name">玛迦等</div><div class="name-en">Maacah etc.</div><div class="note">其他妻妾</div></div>
+      </div>
+
+      <!-- 大卫的子女 -->
+      <div class="generation-row">
+        <div class="person"><div class="name">暗嫩</div><div class="name-en">Amnon</div><div class="note">长子</div></div>
+        <div class="person"><div class="name">押沙龙</div><div class="name-en">Absalom</div><div class="note">三子 · 叛乱</div></div>
+        <div class="person"><div class="name">亚多尼雅</div><div class="name-en">Adonijah</div><div class="note">四子</div></div>
+      </div>
+
+      <!-- ====== 所罗门 ====== -->
+      <div class="connector"></div>
+      <div class="generation-row">
+        <div class="person key" style="border-color:#c8a060; background:#fcf6ea;">
+          <div class="name">所罗门</div>
+          <div class="name-en">Solomon</div>
+          <div class="note">大卫 & 拔示巴之子 · 第三任国王</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== 世代表格 ====== -->
+  <div class="section-title">📋 世代对照表</div>
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:14px; margin-bottom:30px;">
+      <thead>
+        <tr style="background:#8b5e3c; color:#fff;">
+          <th style="padding:10px 16px;text-align:left;">世代</th>
+          <th style="padding:10px 16px;text-align:left;">代表人物</th>
+          <th style="padding:10px 16px;text-align:left;">时期/BC</th>
+          <th style="padding:10px 16px;text-align:left;">关键事件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#faf5ee;"><td>1</td><td><b>亚伯拉罕</b></td><td>~2166</td><td>蒙召离开吾珥 · 领受应许</td></tr>
+        <tr><td>2</td><td><b>以撒</b></td><td>~2066</td><td>应许之子 · 亚伯拉罕献祭</td></tr>
+        <tr style="background:#faf5ee;"><td>3</td><td><b>雅各（以色列）</b></td><td>~2006</td><td>与神摔跤 · 12支派起源</td></tr>
+        <tr><td>4</td><td><b>约瑟</b> / 犹大等</td><td>~1915</td><td>约瑟被卖 → 埃及宰相</td></tr>
+        <tr style="background:#f5f0e8;"><td colspan="4" style="text-align:center; color:#8b5e3c;font-style:italic;">⏳ 埃及为奴 ~400年</td></tr>
+        <tr style="background:#faf5ee;"><td>摩西</td><td><b>摩西</b> / 亚伦</td><td>~1526</td><td>出埃及 · 领受十诫</td></tr>
+        <tr><td>约书亚</td><td><b>约书亚</b></td><td>~1406</td><td>进入迦南</td></tr>
+        <tr style="background:#f5f0e8;"><td colspan="4" style="text-align:center; color:#8b5e3c;font-style:italic;">⚖️ 士师时代 ~350年</td></tr>
+        <tr style="background:#faf5ee;"><td>波阿斯</td><td><b>波阿斯</b> → 俄备得 → <b>耶西</b></td><td>~1150</td><td>路得记</td></tr>
+        <tr><td>7</td><td><b>大卫</b></td><td>~1040-970</td><td>击杀歌利亚 · 建立王国</td></tr>
+        <tr style="background:#faf5ee;"><td>8</td><td><b>所罗门</b></td><td>~990-931</td><td>建造圣殿 · 智慧之王</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="text-align:center; color:#aaa; font-size:12px; padding:10px 0 20px;">
+    按圣经年代表整理 · 公元前日期为近似值
+  </div>
+
+</div>
+</body>
+</html>
