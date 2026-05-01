@@ -34,9 +34,7 @@
     font-size: 14px;
     margin-bottom: 28px;
   }
-  .testament {
-    margin-bottom: 32px;
-  }
+  .testament { margin-bottom: 32px; }
   .testament-title {
     font-size: 18px;
     font-weight: 700;
@@ -68,10 +66,21 @@
     border: 1px solid #ede8e0;
     transition: all 0.2s;
     gap: 10px;
+    cursor: pointer;
   }
   .book-card:hover {
     background: #f2ece4;
     border-color: #d4b896;
+  }
+  .book-card.genesis-link {
+    border-color: #8b5e3c;
+    border-width: 2px;
+    background: #f5ede4;
+    cursor: pointer;
+  }
+  .book-card.genesis-link:hover {
+    background: #ede0d0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
   .book-num {
     font-size: 12px;
@@ -80,9 +89,7 @@
     text-align: right;
     font-weight: 500;
   }
-  .book-info {
-    flex: 1;
-  }
+  .book-info { flex: 1; }
   .book-en {
     font-size: 15px;
     font-weight: 600;
@@ -100,6 +107,14 @@
     color: #666;
     margin-top: 1px;
   }
+  .genesis-badge {
+    font-size: 10px;
+    background: #8b5e3c;
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
   .play-btn {
     width: 32px;
     height: 32px;
@@ -115,12 +130,8 @@
     flex-shrink: 0;
     transition: background 0.2s;
   }
-  .play-btn:hover {
-    background: #b8926c;
-  }
-  .play-btn:active {
-    transform: scale(0.92);
-  }
+  .play-btn:hover { background: #b8926c; }
+  .play-btn:active { transform: scale(0.92); }
   .search-box {
     margin-bottom: 20px;
     position: relative;
@@ -163,19 +174,93 @@
     transition: all 0.2s;
     color: #666;
   }
-  .filter-btn:hover {
-    border-color: #b8926c;
+  .filter-btn:hover { border-color: #b8926c; color: #5b3a1a; }
+  .filter-btn.active { background: #8b5e3c; color: #fff; border-color: #8b5e3c; }
+
+  /* ===== 弹窗 ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,20,10,0.55);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+    cursor: pointer;
+  }
+  .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+  .modal-box {
+    background: #fcf9f5;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    padding: 32px 30px;
+    cursor: default;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px;
+    font-size: 24px; color: #bbb; cursor: pointer;
+    background: none; border: none; line-height: 1;
+  }
+  .modal-close:hover { color: #666; }
+  .modal-title {
+    font-size: 22px;
+    font-weight: 700;
     color: #5b3a1a;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #d4b896;
+    padding-bottom: 12px;
   }
-  .filter-btn.active {
-    background: #8b5e3c;
-    color: #fff;
-    border-color: #8b5e3c;
+  .modal-section { margin-bottom: 20px; }
+  .modal-section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #8b5e3c;
+    margin-bottom: 8px;
   }
+  .modal-section p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.8;
+  }
+  .verse-card {
+    background: #f5ede4;
+    border-left: 4px solid #8b5e3c;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 0 8px 8px 0;
+  }
+  .verse-text {
+    font-size: 14px;
+    color: #3a2a1a;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .verse-ref {
+    font-size: 12px;
+    color: #8b5e3c;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+  }
+  .modal-hint {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+  }
+
   @media (max-width: 640px) {
     .container { padding: 16px; }
     .book-grid { grid-template-columns: 1fr; }
     h1 { font-size: 22px; }
+    .modal-box { padding: 24px 18px; }
   }
 </style>
 </head>
@@ -183,7 +268,7 @@
 
 <div class="container">
   <h1>📖 圣经各卷书</h1>
-  <p class="subtitle">Books of the Bible · 英汉对照 · 点击 🔊 听发音</p>
+  <p class="subtitle">Books of the Bible · 英汉对照 · 点击 🔊 听发音 · 点击📜创世记看概要金句</p>
 
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="🔍 搜索中文或英文名称..." oninput="filterBooks()">
@@ -200,11 +285,42 @@
   <div class="count-bar" id="countBar"></div>
 </div>
 
+<!-- ===== 创世纪弹窗 ===== -->
+<div class="modal-overlay" id="genesisModal" onclick="if(event.target===this)closeGenesis()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeGenesis()">✕</button>
+    <div class="modal-title">🌍 创世纪 Genesis</div>
+
+    <div class="modal-section">
+      <h3>📖 概要</h3>
+      <p>创世纪是圣经的开篇之书，记载了世界的起源、人类的堕落与神的救赎计划。全书分为两大段落：上古史（1-11章）讲述神的创造（1-2章）、人类犯罪与堕落（3章）、该隐杀亚伯（4章）、挪亚洪水与方舟（6-9章）、巴别塔（11章）；先祖史（12-50章）聚焦亚伯拉罕蒙召、以撒、雅各与约瑟四代先祖的故事，揭示神透过一个家族赐福万邦的救恩蓝图。核心主题：创造、堕落、审判、恩典与应许。</p>
+    </div>
+
+    <div class="modal-section">
+      <h3>🔥 金句 · 神的话语</h3>
+
+      <div class="verse-card"><div class="verse-text">"起初，神创造天地。"</div><span class="verse-ref">—— 创世记 1:1</span></div>
+      <div class="verse-card"><div class="verse-text">"神说：'要有光'，就有了光。"</div><span class="verse-ref">—— 创世记 1:3</span></div>
+      <div class="verse-card"><div class="verse-text">"神就照着自己的形象造人，乃是照着他的形象造男造女。"</div><span class="verse-ref">—— 创世记 1:27</span></div>
+      <div class="verse-card"><div class="verse-text">"我要叫你和女人彼此为仇，你的后裔和女人的后裔也彼此为仇。女人的后裔要伤你的头，你要伤他的脚跟。"</div><span class="verse-ref">—— 创世记 3:15（原始福音）</span></div>
+      <div class="verse-card"><div class="verse-text">"挪亚在耶和华眼前蒙恩。"</div><span class="verse-ref">—— 创世记 6:8</span></div>
+      <div class="verse-card"><div class="verse-text">"耶和华对亚伯兰说：'你要离开本地、本族、父家，往我所要指示你的地去。我必叫你成为大国，我必赐福给你，叫你的名为大，你也要叫别人得福。为你祝福的，我必赐福与他；那咒诅你的，我必咒诅他。地上的万族都要因你得福。'"</div><span class="verse-ref">—— 创世记 12:1-3</span></div>
+      <div class="verse-card"><div class="verse-text">"亚伯兰信耶和华，耶和华就以此为他的义。"</div><span class="verse-ref">—— 创世记 15:6</span></div>
+      <div class="verse-card"><div class="verse-text">"亚伯拉罕给那地方起名叫耶和华以勒（就是耶和华必预备的意思）。"</div><span class="verse-ref">—— 创世记 22:14</span></div>
+      <div class="verse-card"><div class="verse-text">"地上万国都必因你的后裔得福，因为你听从了我的话。"</div><span class="verse-ref">—— 创世记 22:18</span></div>
+      <div class="verse-card"><div class="verse-text">"我与你同在，你无论往哪里去，我必保佑你，领你归回这地，总不离弃你，直到我成全了向你所应许的。"</div><span class="verse-ref">—— 创世记 28:15</span></div>
+      <div class="verse-card"><div class="verse-text">"从前你们的意思是要害我，但神的意思原是好的，要保全许多人的性命，成就今日的光景。"</div><span class="verse-ref">—— 创世记 50:20</span></div>
+
+    </div>
+    <div class="modal-hint">点击任意区域可关闭</div>
+  </div>
+</div>
+
 <script>
 // ====== 全部数据 ======
 const books = {
   ot: [
-    { en: "Genesis", phonetic: "/ˈdʒenəsɪs/", cn: "创世记" },
+    { en: "Genesis", phonetic: "/ˈdʒenəsɪs/", cn: "创世记", genesis: true },
     { en: "Exodus", phonetic: "/ˈeksədəs/", cn: "出埃及记" },
     { en: "Leviticus", phonetic: "/lɪˈvɪtɪkəs/", cn: "利未记" },
     { en: "Numbers", phonetic: "/ˈnʌmbərz/", cn: "民数记" },
@@ -277,7 +393,17 @@ const books = {
 
 let currentFilter = 'all';
 
-// ====== 渲染函数 ======
+// ====== 弹窗 ======
+function openGenesis() {
+  document.getElementById('genesisModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeGenesis() {
+  document.getElementById('genesisModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ====== 渲染 ======
 function render(filter) {
   const container = document.getElementById('testaments');
   const countBar = document.getElementById('countBar');
@@ -304,7 +430,8 @@ function render(filter) {
 
     filtered.forEach((book, idx) => {
       const card = document.createElement('div');
-      card.className = 'book-card';
+      const isGenesis = book.genesis === true;
+      card.className = isGenesis ? 'book-card genesis-link' : 'book-card';
       card.dataset.search = `${book.en} ${book.cn}`.toLowerCase();
 
       const num = document.createElement('div');
@@ -318,6 +445,12 @@ function render(filter) {
       const enName = document.createElement('div');
       enName.className = 'book-en';
       enName.textContent = book.en;
+      if (isGenesis) {
+        const badge = document.createElement('span');
+        badge.className = 'genesis-badge';
+        badge.textContent = '📜详情';
+        enName.appendChild(badge);
+      }
 
       const phonetic = document.createElement('div');
       phonetic.className = 'book-phonetic';
@@ -334,7 +467,7 @@ function render(filter) {
       const btn = document.createElement('button');
       btn.className = 'play-btn';
       btn.innerHTML = '🔊';
-      btn.title = '点击发音';
+      btn.title = isGenesis ? '听发音 / 点击查看详情' : '点击发音';
       btn.onclick = (e) => {
         e.stopPropagation();
         speak(book.en);
@@ -343,6 +476,18 @@ function render(filter) {
       card.appendChild(num);
       card.appendChild(info);
       card.appendChild(btn);
+
+      // 创世记整张卡片可点击弹窗
+      if (isGenesis) {
+        card.onclick = (e) => {
+          const tag = e.target;
+          // 如果点的是播放按钮，不触发弹窗
+          if (tag.classList.contains('play-btn') || tag.closest('.play-btn')) return;
+          openGenesis();
+        };
+        card.style.cursor = 'pointer';
+      }
+
       grid.appendChild(card);
     });
 
@@ -354,26 +499,20 @@ function render(filter) {
   renderTestament('ot', '旧约 Old Testament', '📜');
   renderTestament('nt', '新约 New Testament', '✝️');
 
-  countBar.textContent = `共 ${totalCount} 卷书 · 点击喇叭图标听发音`;
+  countBar.textContent = `共 ${totalCount} 卷书 · 点击创世记查看概要金句`;
 }
 
 // ====== 发音 ======
 function speak(text) {
-  if (!window.speechSynthesis) {
-    alert('您的浏览器不支持语音合成');
-    return;
-  }
+  if (!window.speechSynthesis) { return; }
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'en-US';
   utter.rate = 0.85;
   utter.pitch = 1.0;
-  
-  // 尝试选一个美式英语声音
   const voices = window.speechSynthesis.getVoices();
   const usVoice = voices.find(v => v.lang.startsWith('en-US'));
   if (usVoice) utter.voice = usVoice;
-  
   window.speechSynthesis.speak(utter);
 }
 
@@ -387,7 +526,7 @@ function filterBooks() {
   });
 }
 
-// ====== 筛选按钮 ======
+// ====== 筛选 ======
 function setFilter(f) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -397,10 +536,8 @@ function setFilter(f) {
   render(f);
 }
 
-// 初始化
 render('all');
 
-// 预加载语音
 if (window.speechSynthesis) {
   window.speechSynthesis.getVoices();
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
