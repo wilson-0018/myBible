@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圣经地图地理资源</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+    background: #f5f0e8;
+    color: #2c2c2c;
+    min-height: 100vh;
+    padding: 16px;
+  }
+  .container { max-width: 860px; margin: 0 auto; text-align: center; }
+
+  .nav-bar {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .nav-btn {
+    padding: 6px 16px; border-radius: 20px; border: 1px solid #d4b896;
+    background: #fff; font-size: 13px; cursor: pointer;
+    color: #8b5e3c; text-decoration: none; transition: all 0.2s;
+  }
+  .nav-btn:hover { background: #f0e8dc; }
+  .nav-btn.active { background: #8b5e3c; color: #fff; border-color: #8b5e3c; }
+
+  h1 { font-size: 26px; color: #5b3a1a; letter-spacing: 2px; margin-bottom: 2px; }
+  .subtitle { color: #aaa; font-size: 13px; margin-bottom: 24px; }
+
+  .section {
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #5b3a1a;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 2px solid #d4b896;
+  }
+
+  .map-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .map-card {
+    background: #fff;
+    border: 1px solid #ede8e0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: left;
+  }
+  .map-card:hover {
+    border-color: #c0a878;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  .map-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #f0ebe3;
+    display: block;
+  }
+  .map-card-body {
+    padding: 14px 16px;
+  }
+  .map-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #3a2a1a;
+    margin-bottom: 4px;
+  }
+  .map-card-desc {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .map-card-link {
+    display: inline-block;
+    font-size: 12px;
+    color: #8b5e3c;
+    text-decoration: none;
+    border: 1px solid #d4b896;
+    padding: 3px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .map-card-link:hover { background: #f0e8dc; }
+
+  .resource-list {
+    background: #fff;
+    border: 1px solid #ede8e0;
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-align: left;
+  }
+  .resource-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0ebe3;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-item a {
+    font-size: 14px;
+    color: #2a5a3a;
+    text-decoration: none;
+    display: block;
+    line-height: 1.6;
+  }
+  .resource-item a:hover { text-decoration: underline; }
+  .resource-item .url-path {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  .footer {
+    font-size: 12px; color: #ccc;
+    margin-top: 30px; padding-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .map-grid { grid-template-columns: 1fr; }
+    .map-card img { height: 140px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav-bar">
+    <a class="nav-btn" href="index.html">🏠 主页</a>
+    <a class="nav-btn" href="bible-genealogy.html">图谱1</a>
+    <a class="nav-btn" href="bible-genealogy2.html">图谱2</a>
+    <a class="nav-btn" href="bible-genealogy3.html">图谱3</a>
+    <a class="nav-btn" href="bible-books.html">📖 各卷书</a>
+    <a class="nav-btn" href="bible-qa.html">圣经答疑</a>
+    <a class="nav-btn active" href="bible-maps.html">🗺️ 地图</a>
+  </div>
+
+  <h1>🗺️ 圣经地理地图</h1>
+  <p class="subtitle">Biblical Geography · 圣经中的地理与古代世界</p>
+
+  <!-- 交互式地图 -->
+  <div class="section">
+    <div class="section-title">🌐 交互式地图</div>
+    <div class="map-grid">
+      <div class="map-card">
+        <div class="map-card-body">
+          <div class="map-card-title">📌 OpenBible 圣经地理编码</div>
+          <div class="map-card-desc">将圣经中提到每一个地点标注在Google地图上，可按书卷/章节筛选。包含完整版和高清地图图。</div>
+          <a class="map-card-link" href="https://www.openbible.info/geo/" target="_blank">访问网站 →</a>
+          <a class="map-card-link" href="https://a.openbible.info/geo/maps-big/all.jpg" target="_blank">看完整地图</a>
+        </div>
+      </div>
+      <div class="map-card">
+        <div class="map-card-body">
+          <div class="map-card-title">🗺️ Bible-History 圣经地图集</div>
+          <div class="map-card-desc">完整的圣经地图数据库，包含旧约以色列、新约时代、罗马帝国、使徒旅程等历史地图。</div>
+          <a class="map-card-link" href="https://bible-history.com/maps/" target="_blank">访问网站 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 旧约地图 -->
+  <div class="section">
+    <div class="section-title">📜 旧约时期</div>
+    <div class="resource-list">
+      <div class="resource-item">
+        <a href="https://bible-history.com/geography/ancient-israel/israel-old-testament.html">🏛️ 旧约以色列地图 <span class="url-path">— 交互式地图，标注旧约重要地点</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/gen">🌍 创世记地点地图 — 伊甸园、吾珥、迦南、埃及、所多玛、蛾摩拉</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/exod">🏜️ 出埃及记地点地图 — 埃及十灾、旷野路线、西奈山</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/josh">⚔️ 约书亚记地点地图 — 进迦南、耶利哥、征服之战、分地</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/1sam">👑 撒母耳记地点地图 — 士师时期、扫罗与大卫的逃亡路线</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/2kgs">🏰 列王纪地点地图 — 分裂王国、亚述与巴比伦入侵</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新约地图 -->
+  <div class="section">
+    <div class="section-title">📖 新约时期</div>
+    <div class="resource-list">
+      <div class="resource-item">
+        <a href="https://bible-history.com/geography/ancient-israel/israel-first-century.html">✝️ 第一世纪以色列地图 <span class="url-path">— 耶稣时代的加利利、犹太、撒马利亚</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/matt">⭐ 马太福音地点地图 — 耶稣生平：伯利恒、拿撒勒、迦拿、迦百农、各各他</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/luke">📜 路加福音地点地图 — 从天使报喜到耶稣升天，涵盖最广</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://a.openbible.info/geo/preview/acts">⛵ 使徒行传地点地图 — 五旬节、教会建立、保罗三次宣教旅程</a>
+      </div>
+      <div class="resource-item">
+        <a href="https://bible-history.com/maps/maps/map_roman-empire.html">🏛️ 罗马帝国地图 <span class="url-path">— 新约时代的世界格局</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://bible-history.com/maps/maps/map_pauls-journeys.html">👣 保罗宣教旅程地图 <span class="url-path">— 三次宣教旅程 + 罗马之行</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 其他资源 -->
+  <div class="section">
+    <div class="section-title">📚 其他资源</div>
+    <div class="resource-list">
+      <div class="resource-item">
+        <a href="https://www.kidsbiblemaps.com/">🧒 Kids Bible Maps <span class="url-path">— 专为儿童和学生设计的圣经地图</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://bible-history.com/biblehistoryonline_ancientsketches.php">🏗️ 古代城市复原图 <span class="url-path">— 耶路撒冷、巴比伦等从考古出发的素描复原</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://www.openbible.info/geo/kmls/all.kmz">📂 完整圣经地点KMZ <span class="url-path">— 下载后在Google Earth中打开所有圣经地点</span></a>
+      </div>
+      <div class="resource-item">
+        <a href="https://www.openbible.info/geo/kmls/all-most-likely.kmz">🎯 最可能位置KMZ <span class="url-path">— 只显示每个地点最可能的位置</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    数据来源：OpenBible.info / Bible-History.com ｜ 持续更新
+  </div>
+</div>
+</body>
+</html>
